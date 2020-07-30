@@ -90,7 +90,7 @@
             "styles": [
               "src/styles.css"
             ],
-            "scripts": []
+            "scripts": ["../node_modules/bootstrap/dist/js/bootstrap.min.js"]
           }
         },
         "lint": {
@@ -119,6 +119,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "sample"
+    }
+  },
+  "defaultProject": "sample",
+  "cli": {
+    "analytics": false
+  }
 }
