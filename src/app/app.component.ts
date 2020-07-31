@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { DynamicGrid } from './grid.model';
-import { FormArray } from '@angular/forms';
 
 @Component({
   selector: 'app-root',
@@ -11,7 +10,7 @@ export class AppComponent  implements OnInit  {
 
   dynamicArray: Array<DynamicGrid> = [];
   newDynamic: any = {};
-
+  disableBtn = false;
 
   constructor(){
 
@@ -44,15 +43,19 @@ addRow() {
     Total: '',
   };
   this.dynamicArray.push(this.newDynamic);
-  // return true;
   console.log(this.dynamicArray);
+  this.disableBtn = true;
+  return true;
 }
 onDelete(index) {
-
-    this.dynamicArray.splice(index, 1);
-    return true;
-
+  if(this.dynamicArray.length === 1) {
+      return false;
+  } else {
+      this.dynamicArray.splice(index, 1);
+      return true;
+  }
 }
+
 totalValue() {
   var total = this.newDynamic.Qnt * this.newDynamic.Rate;
   this.newDynamic.Value = total;
@@ -76,4 +79,36 @@ grandTotal(){
    return grandT;
 }
 
+subtotal(){
+    var total = 0;
+    this.dynamicArray.forEach(function(item){
+      total += (item.Qnt * item.Rate);
+    });
+    return total;
+  };
+
+  discTotal(){
+    var disctotal = 0;
+    this.dynamicArray.forEach(function(item){
+      disctotal += (item.Qnt * item.Rate - (item.Qnt * item.Rate * (item.Discount * 0.01)));
+    });
+    return disctotal;
+  }
+
+  taxTotal(){
+    var taxT=0;
+    this.dynamicArray.forEach(function(item){
+      taxT += ((item.Qnt * item.Rate - (item.Qnt * item.Rate * (item.Discount * 0.01))) * (item.Tax * 0.01));
+    });
+    return taxT;
+  }
+
+  finalP(){
+    var final = 0;
+    this.dynamicArray.forEach(function(item){
+      // tslint:disable-next-line: max-line-length
+      final += ((item.Qnt * item.Rate - (item.Qnt * item.Rate * (item.Discount * 0.01)))) + (((item.Qnt * item.Rate - (item.Qnt * item.Rate * (item.Discount * 0.01))) * (item.Tax * 0.01)));
+    });
+    return final;
+  }
 }

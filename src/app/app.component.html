@@ -1,6 +1,5 @@
 <button type="button" class="btn btn-primary" (click)="addRow()" >Add Row</button>
 <table class="table table-striped table-bordered">
-
   <thead>
     <tr>
       <th scope="col">SNo.</th>
@@ -19,17 +18,32 @@
   <tbody>
     <tr *ngFor="let dynamic of dynamicArray; let i = index">
       <td>{{i+1}}</td>
-      <td><input [(ngModel)]="dynamicArray[i].Name" [name]="dynamicArray.name" class="form-control" type="text" size="5" ></td>
-      <td><input [(ngModel)]="dynamicArray[i].Qnt" [name]="dynamic.Qnt" class="form-control" type="text" size="5" ></td>
-      <td><input [(ngModel)]="dynamicArray[i].Rate" [name]="dynamic.Rate" class="form-control" type="text" size="5" ></td>
+      <td><input [(ngModel)]="dynamicArray[i].Name" [name]="dynamic.Name" class="form-control" type="text" size="5" ></td>
+      <td><input [(ngModel)]="dynamicArray[i].Qnt" [name]="dynamic.Qnt" class="form-control" type="number" size="5" ></td>
+      <td><input [(ngModel)]="dynamicArray[i].Rate" [name]="dynamic.Rate" class="form-control" type="number" size="5" ></td>
       <td>{{dynamic.Qnt*dynamic.Rate}}</td>
-      <td><input [(ngModel)]="dynamicArray[i].Discount" [name]="dynamic.Discount" class="form-control" type="text" size="5" ></td>
+      <td><input [(ngModel)]="dynamicArray[i].Discount" [name]="dynamic.Discount" class="form-control" type="number" size="5" ></td>
       <td>{{dynamic.Qnt*dynamic.Rate - (dynamic.Qnt*dynamic.Rate * (dynamic.Discount*0.01))}}</td>
-      <td><input [(ngModel)]="dynamicArray[i].Tax" [name]="dynamic.Tax" class="form-control" type="text" size="5" ></td>
+      <td><input [(ngModel)]="dynamicArray[i].Tax" [name]="dynamic.Tax" class="form-control" type="number" size="5" ></td>
       <td>{{(dynamic.Qnt*dynamic.Rate - (dynamic.Qnt*dynamic.Rate * (dynamic.Discount*0.01)))*(dynamic.Tax * 0.01)}}</td>
       <td>{{(dynamic.Qnt*dynamic.Rate - (dynamic.Qnt*dynamic.Rate * (dynamic.Discount*0.01)))
         + ((dynamic.Qnt*dynamic.Rate - (dynamic.Qnt*dynamic.Rate * (dynamic.Discount*0.01)))*(dynamic.Tax * 0.01))}}</td>
-      <td><button class="btn btn-danger" (click)="onDelete(i)">Delete</button></td>
+      <td><button class="btn btn-danger" id="remove" *ngIf="i!==0" (click)="onDelete(i) ">Delete</button></td>
+    </tr>
+    <tr>
+      <td>Total</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>{{subtotal()}}</td>
+      <td></td>
+      <td>{{discTotal()}}</td>
+      <td></td>
+      <td>{{taxTotal()}}</td>
+      <td>{{finalP()}}</td>
+      <td></td>
     </tr>
   </tbody>
+  <button type="button" class="btn btn-info" *ngIf="disableBtn" >Submit</button>
 </table>
+
