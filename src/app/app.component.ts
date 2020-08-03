@@ -11,7 +11,7 @@ export class AppComponent  implements OnInit  {
   dynamicArray: Array<DynamicGrid> = [];
   newDynamic: any = {};
   disableBtn = false;
-
+  flag: boolean;
   constructor(){
 
   }
@@ -28,6 +28,7 @@ export class AppComponent  implements OnInit  {
     Total: '',
   };
     this.dynamicArray.push(this.newDynamic);
+    this.flag = true;
 }
 
 
@@ -44,6 +45,7 @@ addRow() {
   };
   this.dynamicArray.push(this.newDynamic);
   console.log(this.dynamicArray);
+  console.log(this.flag);
   this.disableBtn = true;
   return true;
 }
@@ -56,28 +58,40 @@ onDelete(index) {
   }
 }
 
-totalValue() {
-  var total = this.newDynamic.Qnt * this.newDynamic.Rate;
-  this.newDynamic.Value = total;
-  return total ;
+// totalValue() {
+//   var total = this.newDynamic.Qnt * this.newDynamic.Rate;
+//   this.newDynamic.Value = total;
+//   return total ;
+// }
+
+// discountedValue(){
+//   var disc = this.totalValue() - ((this.totalValue()) * (this.newDynamic.Discount) * 0.01 ) ;
+//   this.newDynamic.Discounted_Price = disc;
+//   return disc;
+// }
+
+flat(){
+  this.flag = !this.flag;
+  console.log(this.flag);
 }
 
-discountedValue(){
-  var disc = this.totalValue() - ((this.totalValue()) * (this.newDynamic.Discount) * 0.01 ) ;
-  this.newDynamic.Discounted_Price = disc;
-  return disc;
+percent(){
+  this.flag = this.flag;
+  console.log(this.flag);
+
 }
 
-tax(){
-   var taxPrice = this.discountedValue() * this.newDynamic.Tax * 0.01 ;
-   this.newDynamic.Tax_value = taxPrice;
-   return taxPrice;
-}
-grandTotal(){
-   var grandT =  this.discountedValue() + this.tax();
-   this.newDynamic.Total = grandT;
-   return grandT;
-}
+// tax(value){
+//    var taxPrice = this.percent() * this.newDynamic.Tax * 0.01 ;
+//    this.newDynamic.Tax_value = taxPrice;
+//    return taxPrice;
+// }
+
+// grandTotal(){
+//    var grandT =  this.discountedValue() + this.tax();
+//    this.newDynamic.Total = grandT;
+//    return grandT;
+// }
 
 subtotal(){
     var total = 0;
@@ -87,10 +101,20 @@ subtotal(){
     return total;
   };
 
-  discTotal(){
+  discTotalPerc(){
     var disctotal = 0;
     this.dynamicArray.forEach(function(item){
       disctotal += (item.Qnt * item.Rate - (item.Qnt * item.Rate * (item.Discount * 0.01)));
+    });
+    this.flag = !this.flag;
+    return disctotal;
+  }
+
+  discTotalFlat(){
+    var disctotal = 0;
+
+    this.dynamicArray.forEach(function(item){
+      disctotal += (item.Qnt * item.Rate - (item.Discount ));
     });
     return disctotal;
   }

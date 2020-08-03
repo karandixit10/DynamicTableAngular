@@ -22,9 +22,30 @@
       <td><input [(ngModel)]="dynamicArray[i].Qnt" [name]="dynamic.Qnt" class="form-control" type="number" size="5" ></td>
       <td><input [(ngModel)]="dynamicArray[i].Rate" [name]="dynamic.Rate" class="form-control" type="number" size="5" ></td>
       <td>{{dynamic.Qnt*dynamic.Rate}}</td>
-      <td><input [(ngModel)]="dynamicArray[i].Discount" [name]="dynamic.Discount" class="form-control" type="number" size="5" ></td>
-      <td>{{dynamic.Qnt*dynamic.Rate - (dynamic.Qnt*dynamic.Rate * (dynamic.Discount*0.01))}}</td>
-      <td><input [(ngModel)]="dynamicArray[i].Tax" [name]="dynamic.Tax" class="form-control" type="number" size="5" ></td>
+      <!-- <td><input [(ngModel)]="dynamicArray[i].Discount" [name]="dynamic.Discount" class="form-control" type="number" size="5" ></td> -->
+      <td>
+        <div class="input-group mb-3">
+          <select ng-model="selection" >
+            <option class="dropdown-item" (click)="flat()">Flat</option>
+            <option class="dropdown-item" (click)="percent()">Percent</option>
+            </select>
+          <input aria-label="Text input with dropdown button" [(ngModel)]="dynamicArray[i].Discount" [name]="dynamic.Discount" class="form-control" type="number" size="5">
+        </div>
+      </td>
+      <td >{{dynamic.Qnt*dynamic.Rate - (dynamic.Qnt*dynamic.Rate * (dynamic.Discount*0.01))}}</td>
+      <td >{{dynamic.Qnt*dynamic.Rate - dynamic.Discount}}</td>
+      <!-- <td><input [(ngModel)]="dynamicArray[i].Tax" [name]="dynamic.Tax" class="form-control" type="number" size="5" ></td> -->
+      <td>
+        <div class="input-group mb-3">
+            <select [(ngModel)] = "dynamicArray[i].Tax">
+            <option class="dropdown-item"  href="#" (click)="tax(2.5)">2.5</option>
+            <option class="dropdown-item"  href="#" (click)="tax(5)">5</option>
+            <option class="dropdown-item"  href="#" (click)="tax(8)">8</option>
+            <option class="dropdown-item"  href="#" (click)="tax(10)">10</option>
+            <option class="dropdown-item"  href="#" (click)="tax(18)">18</option>
+            </select>
+          </div>
+      </td>
       <td>{{(dynamic.Qnt*dynamic.Rate - (dynamic.Qnt*dynamic.Rate * (dynamic.Discount*0.01)))*(dynamic.Tax * 0.01)}}</td>
       <td>{{(dynamic.Qnt*dynamic.Rate - (dynamic.Qnt*dynamic.Rate * (dynamic.Discount*0.01)))
         + ((dynamic.Qnt*dynamic.Rate - (dynamic.Qnt*dynamic.Rate * (dynamic.Discount*0.01)))*(dynamic.Tax * 0.01))}}</td>
@@ -37,7 +58,8 @@
       <td></td>
       <td>{{subtotal()}}</td>
       <td></td>
-      <td>{{discTotal()}}</td>
+      <td *ngIf="flag">{{discTotalFlat()}}</td>
+      <td *ngIf="!flag">{{discTotalPerc()}}</td>
       <td></td>
       <td>{{taxTotal()}}</td>
       <td>{{finalP()}}</td>
