@@ -26,14 +26,15 @@
       <td>
         <div class="input-group mb-3">
           <select ng-model="selection" >
-            <option class="dropdown-item" (click)="flat()">Flat</option>
-            <option class="dropdown-item" (click)="percent()">Percent</option>
+            <option class="dropdown-item" href="#" (click)="flat()">Flat</option>
+            <option class="dropdown-item" href="#" (click)="percent()">Percent</option>
             </select>
           <input aria-label="Text input with dropdown button" [(ngModel)]="dynamicArray[i].Discount" [name]="dynamic.Discount" class="form-control" type="number" size="5">
         </div>
       </td>
-      <td >{{dynamic.Qnt*dynamic.Rate - (dynamic.Qnt*dynamic.Rate * (dynamic.Discount*0.01))}}</td>
-      <td >{{dynamic.Qnt*dynamic.Rate - dynamic.Discount}}</td>
+      <td *ngIf="flag" >{{dynamic.Qnt*dynamic.Rate - (dynamic.Qnt*dynamic.Rate * (dynamic.Discount*0.01))}}</td>
+      <td *ngIf="!flag">{{dynamic.Qnt*dynamic.Rate - dynamic.Discount}}</td>
+
       <!-- <td><input [(ngModel)]="dynamicArray[i].Tax" [name]="dynamic.Tax" class="form-control" type="number" size="5" ></td> -->
       <td>
         <div class="input-group mb-3">

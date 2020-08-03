@@ -11,7 +11,7 @@ export class AppComponent  implements OnInit  {
   dynamicArray: Array<DynamicGrid> = [];
   newDynamic: any = {};
   disableBtn = false;
-  flag: boolean;
+  flag = true;
   constructor(){
 
   }
@@ -28,7 +28,6 @@ export class AppComponent  implements OnInit  {
     Total: '',
   };
     this.dynamicArray.push(this.newDynamic);
-    this.flag = true;
 }
 
 
@@ -45,7 +44,6 @@ addRow() {
   };
   this.dynamicArray.push(this.newDynamic);
   console.log(this.dynamicArray);
-  console.log(this.flag);
   this.disableBtn = true;
   return true;
 }
@@ -58,11 +56,11 @@ onDelete(index) {
   }
 }
 
-// totalValue() {
-//   var total = this.newDynamic.Qnt * this.newDynamic.Rate;
-//   this.newDynamic.Value = total;
-//   return total ;
-// }
+totalValue() {
+  var total = this.newDynamic.Qnt * this.newDynamic.Rate;
+  this.newDynamic.Value = total;
+  return total ;
+}
 
 // discountedValue(){
 //   var disc = this.totalValue() - ((this.totalValue()) * (this.newDynamic.Discount) * 0.01 ) ;
@@ -71,21 +69,25 @@ onDelete(index) {
 // }
 
 flat(){
+  var flat = this.totalValue() - this.newDynamic.Discount;
+  this.newDynamic.Discounted_Price = flat;
   this.flag = !this.flag;
-  console.log(this.flag);
+  return flat;
 }
 
 percent(){
-  this.flag = this.flag;
+  var perc = this.totalValue() - ((this.totalValue()) * (this.newDynamic.Discount) * 0.01 ) ;
+  this.newDynamic.Discounted_Price = perc;
+  return perc;
   console.log(this.flag);
 
 }
 
-// tax(value){
-//    var taxPrice = this.percent() * this.newDynamic.Tax * 0.01 ;
-//    this.newDynamic.Tax_value = taxPrice;
-//    return taxPrice;
-// }
+tax(value){
+   var taxPrice = this.percent() * this.newDynamic.Tax * 0.01 ;
+   this.newDynamic.Tax_value = taxPrice;
+   return taxPrice;
+}
 
 // grandTotal(){
 //    var grandT =  this.discountedValue() + this.tax();
@@ -134,5 +136,9 @@ subtotal(){
       final += ((item.Qnt * item.Rate - (item.Qnt * item.Rate * (item.Discount * 0.01)))) + (((item.Qnt * item.Rate - (item.Qnt * item.Rate * (item.Discount * 0.01))) * (item.Tax * 0.01)));
     });
     return final;
+  }
+
+  onChangged(){
+
   }
 }
