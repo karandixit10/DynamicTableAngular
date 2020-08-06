@@ -17,6 +17,7 @@ export class AppComponent  implements OnInit  {
   }
 
   ngOnInit(): void {
+    this.flag= false;
     this.newDynamic = { Name: '',
     Qnt: '',
     Rate: '',
@@ -30,7 +31,25 @@ export class AppComponent  implements OnInit  {
     this.dynamicArray.push(this.newDynamic);
 }
 
+dis(value: string){
+  switch(value){
+    case 'flat':{
+      var flat = this.totalValue() - this.newDynamic.Discount;
+      this.newDynamic.Discounted_Price = flat;
+      this.flag = false;
+      return flat;
+      break;
+    }
+    case 'perc':{
+      var perc = this.totalValue() - ((this.totalValue()) * (this.newDynamic.Discount) * 0.01 ) ;
+      this.newDynamic.Discounted_Price = perc;
+      return perc;
+      break;
 
+    }
+
+  }
+}
 addRow() {
   this.newDynamic = { Name: '',
     Qnt: '',
@@ -62,29 +81,14 @@ totalValue() {
   return total ;
 }
 
-// discountedValue(){
-//   var disc = this.totalValue() - ((this.totalValue()) * (this.newDynamic.Discount) * 0.01 ) ;
-//   this.newDynamic.Discounted_Price = disc;
-//   return disc;
-// }
-
-flat(){
-  var flat = this.totalValue() - this.newDynamic.Discount;
-  this.newDynamic.Discounted_Price = flat;
-  this.flag = !this.flag;
-  return flat;
-}
-
-percent(){
-  var perc = this.totalValue() - ((this.totalValue()) * (this.newDynamic.Discount) * 0.01 ) ;
-  this.newDynamic.Discounted_Price = perc;
-  return perc;
-  console.log(this.flag);
-
+discountedValue(){
+  var disc = this.totalValue() - ((this.totalValue()) * (this.newDynamic.Discount) * 0.01 ) ;
+  this.newDynamic.Discounted_Price = disc;
+  return disc;
 }
 
 tax(value){
-   var taxPrice = this.percent() * this.newDynamic.Tax * 0.01 ;
+   var taxPrice = this.newDynamic.Discounted_Price() * this.newDynamic.Tax * 0.01 ;
    this.newDynamic.Tax_value = taxPrice;
    return taxPrice;
 }
@@ -138,7 +142,4 @@ subtotal(){
     return final;
   }
 
-  onChangged(){
-
-  }
 }
