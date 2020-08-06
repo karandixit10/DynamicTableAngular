@@ -18,56 +18,49 @@
   <tbody>
     <tr *ngFor="let dynamic of dynamicArray; let i = index">
       <td>{{i+1}}</td>
-      <td><input [(ngModel)]="dynamicArray[i].Name" [name]="dynamic.Name" class="form-control" type="text" size="5" ></td>
-      <td><input [(ngModel)]="dynamicArray[i].Qnt" [name]="dynamic.Qnt" class="form-control" type="number" size="5" ></td>
-      <td><input [(ngModel)]="dynamicArray[i].Rate" [name]="dynamic.Rate" class="form-control" type="number" size="5" ></td>
-      <td>{{dynamic.Qnt*dynamic.Rate}}</td>
-      <!-- <td><input [(ngModel)]="dynamicArray[i].Discount" [name]="dynamic.Discount" class="form-control" type="number" size="5" ></td> -->
+      <td><input [(ngModel)]="dynamicArray[i].Name" required [name]="dynamic.Name" class="form-control" type="text" size="5" ></td>
+      <td><input [(ngModel)]="dynamicArray[i].Qnt" required (keyup)= "calcall()" [name]="dynamic.Qnt" class="form-control" type="number" min="0" size="5" ></td>
+      <td><input [(ngModel)]="dynamicArray[i].Rate" required (keyup)= "calcall()" [name]="dynamic.Rate" class="form-control" type="number" min="0" size="5" ></td>
+      <td>{{dynamic.Value}}</td>
       <td>
         <div class="input-group mb-3">
-          <select id="selectid" class="form-control-mb-12" (change)="dis($event.target.value)">
+          <select id="selectid" class="form-control-mb-12" (change) = "calcall()" [(ngModel)] = 'dynamicArray[i].Discountmode' name="dynamic.Discountmode">
             <option class="dropdown-item" value="flat">Flat</option>
             <option class="dropdown-item" value="perc">Percent</option>
           </select>
-          <input aria-label="Text input with dropdown button" [(ngModel)]="dynamicArray[i].Discount" [name]="dynamic.Discount" class="form-control" type="number" size="5">
+          <input aria-label="Text input with dropdown button" required [(ngModel)]="dynamicArray[i].Discount" [name]="dynamic.Discount" class="form-control" type="number" min="0" size="5">
         </div>
       </td>
-      <td *ngIf="flag" >{{dynamic.Qnt*dynamic.Rate - (dynamic.Qnt*dynamic.Rate * (dynamic.Discount*0.01))}}</td>
-      <td *ngIf="!flag">{{dynamic.Qnt*dynamic.Rate - dynamic.Discount}}</td>
-
-      <!-- <td><input [(ngModel)]="dynamicArray[i].Tax" [name]="dynamic.Tax" class="form-control" type="number" size="5" ></td> -->
+      <td>{{dynamic.Discounted_Price}}</td>
       <td>
         <div class="input-group mb-3">
-            <select [(ngModel)] = "dynamicArray[i].Tax">
-            <option class="dropdown-item"  href="#" (click)="tax(2.5)">2.5</option>
-            <option class="dropdown-item"  href="#" (click)="tax(5)">5</option>
-            <option class="dropdown-item"  href="#" (click)="tax(8)">8</option>
-            <option class="dropdown-item"  href="#" (click)="tax(10)">10</option>
-            <option class="dropdown-item"  href="#" (click)="tax(18)">18</option>
+            <select (change) = "calcall()" [(ngModel)] = "dynamicArray[i].Tax" name="dynamic.Tax">
+            <option class="dropdown-item"  href="#" >2.5</option>
+            <option class="dropdown-item"  href="#">5</option>
+            <option class="dropdown-item"  href="#">8</option>
+            <option class="dropdown-item"  href="#">10</option>
+            <option class="dropdown-item"  href="#">18</option>
             </select>
           </div>
       </td>
-      <td *ngIf="flag">{{(dynamic.Qnt*dynamic.Rate - (dynamic.Qnt*dynamic.Rate * (dynamic.Discount*0.01)))*(dynamic.Tax * 0.01)}}</td>
-      <td *ngIf="!flag">{{(dynamic.Qnt*dynamic.Rate - dynamic.Discount)*(dynamic.Tax * 0.01)}}</td>
-      <td>{{(dynamic.Qnt*dynamic.Rate - (dynamic.Qnt*dynamic.Rate * (dynamic.Discount*0.01)))
-        + ((dynamic.Qnt*dynamic.Rate - (dynamic.Qnt*dynamic.Rate * (dynamic.Discount*0.01)))*(dynamic.Tax * 0.01))}}</td>
-      <td><button class="btn btn-danger" id="remove" *ngIf="i!==0" (click)="onDelete(i) ">Delete</button></td>
+      <td>{{dynamic.Tax_Value}}</td>
+      <td>{{dynamic.Total}}</td>
+      <td><button class="btn btn-danger" *ngIf="i!==0" (click)="onDelete(i) ">Delete</button></td>
     </tr>
     <tr>
       <td>Total</td>
       <td></td>
       <td></td>
       <td></td>
-      <td>{{subtotal()}}</td>
+      <td >{{subtotal()}}</td>
       <td></td>
-      <td *ngIf="flag">{{discTotalFlat()}}</td>
-      <td *ngIf="!flag">{{discTotalPerc()}}</td>
+      <td>{{discTotal()}}</td>
       <td></td>
       <td>{{taxTotal()}}</td>
       <td>{{finalP()}}</td>
       <td></td>
     </tr>
   </tbody>
-  <button type="button" class="btn btn-info" *ngIf="disableBtn" >Submit</button>
+  <button type="submit" class="btn btn-info">Submit</button>
 </table>
 
