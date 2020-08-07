@@ -18,44 +18,28 @@ export class AppComponent  implements OnInit  {
     Name: '',
     Qnt: '',
     Rate: '',
-    Value: '0',
+    Value: '',
     Discount: '',
     Discountmode: 'flat',
-    Discounted_Price: '0',
+    Discounted_Price: '',
     Tax: '',
-    Tax_value: '0',
-    Total: '0',
+    Tax_value: '',
+    Total: '',
   };
     this.dynamicArray.push(this.newDynamic);
 }
-
-  calcall(){
-    var i;
-    for(i = 0; this.dynamicArray.length; i++){
-      this.dynamicArray[i].Value = this.dynamicArray[i].Qnt *this.dynamicArray[i].Rate;
-      if(this.dynamicArray[i].Discountmode === 'flat'){
-        var disval = this.dynamicArray[i].Discount;
-      }else{
-        var disval = (this.dynamicArray[i].Value * this.dynamicArray[i].Discount) / 100;
-      }
-      this.dynamicArray[i].Discounted_Price = this.dynamicArray[i].Value - disval;
-      this.dynamicArray[i].Tax_Value = (this.dynamicArray[i].Discounted_Price * this.dynamicArray[i].Tax ) / 100;
-      this.dynamicArray[i].Total =  this.dynamicArray[i].Discounted_Price + this.dynamicArray[i].Tax_Value;
-    }
-  }
-
   addRow() {
     this.newDynamic = {
       Name: '',
       Qnt: '',
       Rate: '',
-      Value: '0',
+      Value: '',
       Discount: '',
       Discountmode: 'flat',
-      Discounted_Price: '0',
+      Discounted_Price: '',
       Tax: '',
-      Tax_value: '0',
-      Total: '0',
+      Tax_value: '',
+      Total: '',
     };
     this.dynamicArray.push(this.newDynamic);
     console.log(this.dynamicArray);
@@ -69,6 +53,24 @@ export class AppComponent  implements OnInit  {
     } else {
         this.dynamicArray.splice(index, 1);
         return true;
+    }
+  }
+  submit(myForm){
+    console.log('form submitted!', myForm);
+  }
+
+  calcall(){
+    var i;
+    for(i = 0; i<this.dynamicArray.length; i++){
+      this.dynamicArray[i].Value = this.dynamicArray[i].Qnt * this.dynamicArray[i].Rate;
+      if(this.dynamicArray[i].Discountmode === 'flat'){
+        var disval = this.dynamicArray[i].Discount;
+      }else{
+        var disval = (this.dynamicArray[i].Value * this.dynamicArray[i].Discount) / 100;
+      }
+      this.dynamicArray[i].Discounted_Price = this.dynamicArray[i].Value - disval;
+      this.dynamicArray[i].Tax_value = (this.dynamicArray[i].Discounted_Price * this.dynamicArray[i].Tax ) / 100;
+      this.dynamicArray[i].Total =  this.dynamicArray[i].Discounted_Price + this.dynamicArray[i].Tax_value;
     }
   }
 

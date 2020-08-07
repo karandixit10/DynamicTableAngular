@@ -7,6 +7,6 @@ export class DynamicGrid{
   Discountmode: string;
   Discounted_Price: number;
   Tax: number;
-  Tax_Value: number;
+  Tax_value: number;
   Total: number;
 }
