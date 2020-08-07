@@ -71,7 +71,16 @@ export class AppComponent  implements OnInit  {
       this.dynamicArray[i].Discounted_Price = this.dynamicArray[i].Value - disval;
       this.dynamicArray[i].Tax_value = (this.dynamicArray[i].Discounted_Price * this.dynamicArray[i].Tax ) / 100;
       this.dynamicArray[i].Total =  this.dynamicArray[i].Discounted_Price + this.dynamicArray[i].Tax_value;
-    }
+      if(this.dynamicArray[i].Discounted_Price<0){
+        this.dynamicArray[i].Discounted_Price = this.dynamicArray[i].Discounted_Price * 0;
+      }
+      if(this.dynamicArray[i].Tax_value<0){
+        this.dynamicArray[i].Tax_value = this.dynamicArray[i].Tax_value * 0;
+      }
+      if(this.dynamicArray[i].Total < 0 ){
+        this.dynamicArray[i].Total = this.dynamicArray[i].Total * 0;
+      }
+  }
   }
 
   subtotal(){
@@ -94,6 +103,9 @@ export class AppComponent  implements OnInit  {
           disctotal += (item.Qnt * item.Rate - (item.Qnt * item.Rate * (item.Discount * 0.01)));
         });
       }
+      if(disctotal<0){
+        disctotal = disctotal * 0;
+      }
       return disctotal;
     }
 
@@ -109,7 +121,9 @@ export class AppComponent  implements OnInit  {
         taxT += ((item.Qnt * item.Rate - (item.Qnt * item.Rate * (item.Discount * 0.01))) * (item.Tax * 0.01));
       });
     }
-
+    if(taxT<0){
+      taxT = taxT * 0;
+    }
     return taxT;
   }
 
@@ -125,7 +139,9 @@ export class AppComponent  implements OnInit  {
       final += ((item.Qnt * item.Rate - (item.Qnt * item.Rate * (item.Discount * 0.01)))) + (((item.Qnt * item.Rate - (item.Qnt * item.Rate * (item.Discount * 0.01))) * (item.Tax * 0.01)));
     });
     }
-
+    if(final<0){
+      final = final * 0;
+    }
     return final;
   }
 
